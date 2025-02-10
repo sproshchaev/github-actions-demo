@@ -71,6 +71,12 @@ docker build -t github-actions-demo .
 docker run -p 8080:8080 github-actions-demo
 ```
 
+### 🐳 Docker Hub
+
+Образ доступен в Docker Hub по следующей ссылке: 
+
+[https://hub.docker.com/r/sproshchaev/github-actions-demo](https://hub.docker.com/r/sproshchaev/github-actions-demo)
+
 ## 📜 Лицензия
 Проект распространяется под лицензией **MIT**.
 
