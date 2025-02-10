@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -20,18 +19,24 @@ jobs:
         with:
           distribution: 'liberica'
           java-version: '17'
+          architecture: 'x64'
 
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
       - name: Test with Maven
-        run: mvn test
+        run: mvn test --batch-mode
 
       - name: Build Docker image
         run: docker build . -t github-actions-demo
 
-      - name: Push Docker image to Docker Hub
+      - name: Login to Docker Hub
         run: |
-          echo "${{ secrets.DOCKER_HUB_USERNAME }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+          echo "Logging in to Docker Hub..."
+          echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+          echo "Login successful!"
+
+      - name: Tag and Push Docker image
+        run: |
           docker tag github-actions-demo ${{ secrets.DOCKER_HUB_USERNAME }}/github-actions-demo:latest
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/github-actions-demo:latest
